@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('patrimonios', function (Blueprint $table) {
             $table->id();
+            $table->string('nome');
+            $table->string('codigo')->unique();
+            $table->string('tipo');
+            $table->date('data_entrada');
+            $table->foreignId('estabelecimento_id')->constrained('estabelecimentos');
+            $table->date('data_baixa')->nullable();
+            $table->text('motivo_baixa')->nullable();
             $table->timestamps();
         });
     }

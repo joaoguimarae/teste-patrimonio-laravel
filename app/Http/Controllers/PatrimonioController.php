@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePatrimonioRequest;
 use App\Models\Patrimonio;
+use App\Services\PatrimonioService;
 use Illuminate\Http\Request;
 
 class PatrimonioController extends Controller
@@ -26,10 +28,16 @@ class PatrimonioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePatrimonioRequest $request, PatrimonioService $servico)
     {
-        //
-    }
+        try{
+            $servico->criarPatrimonio($request->validated());
+            return redirect()->route('patrimonios.index')->with('sucesso','Patrimônio criado');
+        }catch(\Exception $e){
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+        }
+    
 
     /**
      * Display the specified resource.
@@ -62,4 +70,21 @@ class PatrimonioController extends Controller
     {
         //
     }
+
+    public function baixa(Request $request,Patrimonio $patrimonio, PatrimonioService $servico){
+        $request->validate([
+            'motivo_baixa'=>'required|string|max:255'
+        ]);
+
+        try{
+            $servico->darBaixa($patrimonio, $request->motivo_baixa);
+            return redirect()->route('patrimonios.index')->with('sucesso','patrimonio baixado com sucesso');
+
+        }catch(\Exception $e){
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+
+    }
+
+    
 }

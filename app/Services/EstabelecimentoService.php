@@ -11,3 +11,4 @@ class EstabelecimentoService
         return Estabelecimento::create($dados);
     }
 }
+?>

@@ -1,13 +1,43 @@
 services:
-  postgres:
-    image: postgres:14
-    container_name: entrevista_postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: entrevista
-    ports:
-      - "5432:5432"
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./storage/database:/var/lib/postgresql/data
+    laravel.test:
+        build:
+            context: ./vendor/laravel/sail/runtimes/8.2
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP:-1000}'
+        image: sail-8.2/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-80}:80'
+        environment:
+            WWWUSER: '${WWWUSER:-1000}'
+            LARAVEL_SAIL: 1
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - ambiente_entrevista
+        depends_on:
+            - postgres
+
+    postgres:
+        image: 'postgres:14'
+        container_name: entrevista_postgres
+        environment:
+            POSTGRES_USER: '${DB_USERNAME:-postgres}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-postgres}'
+            POSTGRES_DB: '${DB_DATABASE:-entrevista}'
+        ports:
+            - '${FORWARD_DB_PORT:-5432}:5432'
+        volumes:
+            - 'dados_postgres:/var/lib/postgresql/data'
+        networks:
+            - ambiente_entrevista
+
+networks:
+    ambiente_entrevista:
+        driver: bridge
+
+volumes:
+    dados_postgres:
+        driver: local

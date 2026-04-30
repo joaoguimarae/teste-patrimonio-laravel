@@ -30,9 +30,15 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="tipo" class="form-label">Tipo (Ex: Clínica, Hospital)</label>
-                    <input type="text" name="tipo" id="tipo" class="form-control" value="{{ old('tipo') }}" required>
-                </div>
+    <label for="tipo" class="form-label">Tipo (Ex: Clínica, Hospital)</label>
+    <input type="text" name="tipo" id="tipo" list="lista-tipos" class="form-control" value="{{ old('tipo') }}" required>
+    
+    <datalist id="lista-tipos">
+        @foreach(\App\Models\Estabelecimento::TIPOS as $tipo)
+            <option value="{{ $tipo }}">
+        @endforeach
+    </datalist>
+</div>
 
                 <div class="mb-3">
                     <label for="dias_max_emprestimo" class="form-label">Prazo Máximo de Empréstimo (Dias)</label>

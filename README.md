@@ -44,7 +44,7 @@ Sistema CRUD para gestão de estabelecimentos e controle de prazos de empréstim
 Siga os passos abaixo no terminal da sua máquina para rodar o projeto localmente.
 
 ### 1. Clonar o repositório
-git clone https://github.com/https://github.com/joaoguimarae/teste-patrimonio-laravel/teste-patrimonio-laravel-main.git
+git clone https://github.com/joaoguimarae/teste-patrimonio-laravel.git
 
 cd teste-patrimonio-laravel-main
 

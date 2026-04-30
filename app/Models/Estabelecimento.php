@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Estabelecimento extends Model
 {
     public const TIPOS = [  
-        'Hospital','Banco','Laboratorio'
+        'Hospital','Banco','Laboratório','Clínica'
     ];
     protected $fillable = ['nome','cnpj','tipo','dias_max_emprestimo'];
 }

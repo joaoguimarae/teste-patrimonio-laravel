@@ -11,35 +11,52 @@ use Carbon\Carbon;
 class EmprestimoService
 {
     public function realizarEmprestimo(array $dados)
-    {
-        $requerente= Estabelecimento:: findOrFail($dados['id_estabelecimento_request']);
-        $atendente= Estabelecimento:: findOrFail($dados['id_esatabelimento_atendente']);
-        $patrimonio= Patrimonio::findOrFail($dados['patrimonio_id']);
+{
+    $patrimonio = Patrimonio::findOrFail($dados['patrimonio_id']);
+    $dados['estabelecimento_atendente_id'] = $patrimonio->estabelecimento_id;
 
-        if ($requerente->tipo !== $atendente->tipo){
-            throw new Exception("Empréstimo negado, os agentes precisam ser do mesmo tipo");
+    $requerente = Estabelecimento::findOrFail($dados['estabelecimento_requerente_id']);
+    $atendente = Estabelecimento::findOrFail($dados['estabelecimento_atendente_id']);
 
-        }
-        if (!is_null($patrimonio->data_baixa)){
-            throw new Exception("Emprestimo negado, este patrimônio já sofreu baixa");
-        }
-
-        $emprestimoAtivo = Emprestimo::where('patrimonio_id', $patrimonio->id)->whereNull('data_devolucao')->exists();
-        if ($emprestimoAtivo ){
-
-        throw new Exception("Emprestimo negado, o patrimônio esta emprestado neste momento");
-        }
-
-        if(!is_null($atendente->dias_max_emprestimo)){
-            
-            $dataInicial = Carbon::parse($dados['data_emprestimo']);
-            $dados['data_devolucao']= $dataInicial->addDays($atendente->dias_max_emprestimo)->toDateString();
-        }
-
-
-
-        return Emprestimo::create($dados);
+    if ($requerente->id === $atendente->id) {
+        
+        throw \Illuminate\Validation\ValidationException::withMessages([
+            'estabelecimento_requerente_id' => 'O destino não pode ser o mesmo que o dono do item.'
+        ]);
     }
+    if ($requerente->tipo !== $atendente->tipo){
+        throw \Illuminate\Validation\ValidationException::withMessages([
+            'estabelecimento_requerente_id' => 'Empréstimo negado: os agentes precisam ser do mesmo tipo.'
+        ]);
+    }
+
+    if (!is_null($patrimonio->data_baixa)){
+        throw \Illuminate\Validation\ValidationException::withMessages([
+            'patrimonio_id' => 'Empréstimo negado: este patrimônio sofreu baixa e não pode ser usado.'
+        ]);
+    }
+
+    $emprestimoAtivo = Emprestimo::where('patrimonio_id', $patrimonio->id)
+        ->where(function ($query) use ($dados) {
+           
+            $query->whereNull('data_devolucao')
+                  ->orWhere('data_devolucao', '>=', $dados['data_emprestimo']);
+        })
+        ->exists();
+
+    if ($emprestimoAtivo) {
+        throw \Illuminate\Validation\ValidationException::withMessages([
+            'patrimonio_id' => 'Este item já está emprestado e ainda não retornou à base.'
+        ]);
+    }
+
+    if(!is_null($atendente->dias_max_emprestimo)){
+        $dataInicial = \Carbon\Carbon::parse($dados['data_emprestimo']);
+        $dados['data_devolucao'] = $dataInicial->addDays($atendente->dias_max_emprestimo)->toDateString();
+    }
+
+    return Emprestimo::create($dados);
+}
 
 
 }

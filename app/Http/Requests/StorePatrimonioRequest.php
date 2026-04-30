@@ -25,10 +25,10 @@ class StorePatrimonioRequest extends FormRequest
     {
         return [
             'nome'=>'required|string|max:255',
-            'codigo'=>'required|string|uniique:patrimonios:codigo',
+            'codigo'=>'required|string|unique:patrimonios,codigo',
             'tipo'=>['required',Rule::in(Patrimonio::TIPOS_PERMITIDOS)],
-            'data_enntrada'=>'required|date',
-            'estabelecimento_id'=>'required|exists:estabelecimentos,id',
+            'data_entrada' => 'required|date',
+            'estabelecimento_id' => 'required|exists:estabelecimentos,id',
             'data_baixa'=>'nullable|date|after_or_equal:data_entrada',
             'motivo_baixa'=>'nullable|string|max:255',
 

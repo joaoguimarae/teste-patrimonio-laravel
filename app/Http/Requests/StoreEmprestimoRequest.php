@@ -19,12 +19,11 @@ class StoreEmprestimoRequest extends FormRequest
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        return [
-            'estabelecimento_requer_id'=>'required|exists:estabelecimentos,id',
-            'estabelecimento_atend_id'=>'required|existsestabelecimentos,id',
-            'patrimonio_id'=>'required|exists:patrimonios,id',
-            'data_emprestimo'=>'required|date',
-        ];
-    }
+{
+    return [
+        'patrimonio_id' => 'required|exists:patrimonios,id',
+        'estabelecimento_requerente_id' => 'required|exists:estabelecimentos,id',
+        'data_emprestimo' => 'required|date',
+    ];
+}
 }

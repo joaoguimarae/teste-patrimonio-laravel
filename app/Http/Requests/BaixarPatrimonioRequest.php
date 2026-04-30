@@ -4,11 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use App\Models\Estabelecimento;
 
-
-class StoreEstabelecimentoRequest extends FormRequest
+class BaixarPatrimonioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +23,7 @@ class StoreEstabelecimentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => 'required',
-            'cnpj'=> 'required|unique:estabelecimentos',
-            'tipo'=>['required', Rule::in(Estabelecimento::TIPOS)],
-            'dias_max_emprestimo'=>'nullable|integer|min:1',
+            'motivo_baixa'=>'required|string|max:255'
         ];
     }
 }

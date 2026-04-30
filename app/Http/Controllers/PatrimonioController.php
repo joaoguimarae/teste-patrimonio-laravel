@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BaixarPatrimonioRequest;
 use App\Http\Requests\StorePatrimonioRequest;
 use App\Models\Patrimonio;
 use App\Services\PatrimonioService;
@@ -14,7 +15,8 @@ class PatrimonioController extends Controller
      */
     public function index()
     {
-        //
+        $patrimonios = \App\Models\Patrimonio::all();
+        return view('patrimonios.index', compact('patrimonios'));
     }
 
     /**
@@ -22,7 +24,8 @@ class PatrimonioController extends Controller
      */
     public function create()
     {
-        //
+        $estabelecimentos = \App\Models\Estabelecimento::all();
+        return view('patrimonios.create', compact('estabelecimentos'));
     }
 
     /**
@@ -71,10 +74,8 @@ class PatrimonioController extends Controller
         //
     }
 
-    public function baixa(Request $request,Patrimonio $patrimonio, PatrimonioService $servico){
-        $request->validate([
-            'motivo_baixa'=>'required|string|max:255'
-        ]);
+    public function baixar(BaixarPatrimonioRequest $request,Patrimonio $patrimonio, PatrimonioService $servico){
+        
 
         try{
             $servico->darBaixa($patrimonio, $request->motivo_baixa);

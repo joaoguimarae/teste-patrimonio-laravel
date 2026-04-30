@@ -6,6 +6,8 @@ use App\Http\Requests\StoreEmprestimoRequest;
 use App\Models\Emprestimo;
 use Illuminate\Http\Request;
 use App\Services\EmprestimoService;
+use App\Models\Estabelecimento;
+use App\Models\Patrimonio;
 
 class EmprestimoController extends Controller
 {
@@ -14,7 +16,8 @@ class EmprestimoController extends Controller
      */
     public function index()
     {
-        //
+        $emprestimos = Emprestimo::with(['patrimonio', 'requerente', 'atendente'])->get();
+        return view('emprestimos.index', compact('emprestimos'));
     }
 
     /**
@@ -22,7 +25,9 @@ class EmprestimoController extends Controller
      */
     public function create()
     {
-        //
+        $estabelecimentos = Estabelecimento::all();
+        $patrimonios = Patrimonio::whereNull('data_baixa')->get();
+        return view('emprestimos.create', compact('estabelecimentos', 'patrimonios'));
     }
 
     /**

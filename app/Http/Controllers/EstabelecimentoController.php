@@ -14,7 +14,8 @@ class EstabelecimentoController extends Controller
      */
     public function index()
     {
-        //
+        $estabelecimentos = \App\Models\Estabelecimento::all();
+        return view('estabelecimentos.index', compact('estabelecimentos'));
     }
 
     /**
@@ -22,7 +23,7 @@ class EstabelecimentoController extends Controller
      */
     public function create()
     {
-        //
+        return view('estabelecimentos.create');
     }
 
     /**
@@ -33,7 +34,7 @@ class EstabelecimentoController extends Controller
         
         try{
             $service->criarEstabelecimento($request->validated());
-            return redirect()->route('estabelecimento.index')->with('Sucesso','Criado com sucesso');
+            return redirect()->route('estabelecimentos.index')->with('Sucesso','Criado com sucesso');
         }catch(\Exception $e){
             return redirect()->back()->withErrors($e->getMessage());
         }

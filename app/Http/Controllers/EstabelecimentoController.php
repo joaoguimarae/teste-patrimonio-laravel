@@ -14,7 +14,7 @@ class EstabelecimentoController extends Controller
      */
     public function index()
     {
-        $estabelecimentos = \App\Models\Estabelecimento::all();
+        $estabelecimentos = Estabelecimento::all();
         return view('estabelecimentos.index', compact('estabelecimentos'));
     }
 

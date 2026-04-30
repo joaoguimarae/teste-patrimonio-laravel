@@ -14,17 +14,14 @@ class Emprestimo extends Model
         'data_devolucao'
 
     ];
-
-    public function patrimonio()
-    {
+    
+    public function patrimonio(){
         return $this->belongsTo(Patrimonio::class);
     }
-    public function requerente()
-    {
+    public function requerente(){
         return $this->belongsTo(Estabelecimento::class, 'estabelecimento_requerente_id');
     }
-    public function atendente()
-    {
+    public function atendente(){
         return $this->belongsTo(Estabelecimento::class, 'estabelecimento_atendente_id');
     }
 }

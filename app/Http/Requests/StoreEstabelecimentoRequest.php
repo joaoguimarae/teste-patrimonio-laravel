@@ -26,7 +26,7 @@ class StoreEstabelecimentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => 'required',
+            'nome' => 'required|unique:estabelecimentos',
             'cnpj'=> 'required|unique:estabelecimentos',
             'tipo'=>['required', Rule::in(Estabelecimento::TIPOS)],
             'dias_max_emprestimo'=>'nullable|integer|min:1',

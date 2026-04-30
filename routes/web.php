@@ -6,8 +6,8 @@ use App\Http\Controllers\PatrimonioController;
 use App\Http\Controllers\EmprestimoController;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('home');;
 
 Route::patch('/patrimonios/{patrimonio}/baixar', [PatrimonioController::class, 'baixar'])->name('patrimonios.baixar');
 Route::resource('estabelecimentos', EstabelecimentoController::class);

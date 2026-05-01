@@ -73,13 +73,13 @@ docker run --rm -v $(pwd):/var/www/html -w /var/www/html laravelsail/php82-compo
 ### 4. Iniciar os containers
 Inicie os serviços do Laravel e do PostgreSQL em segundo plano:
 
-docker compose up -d
+docker compose up -d --build
 
 ### 5. Finalizar a configuração
 Gere a chave da aplicação e crie as tabelas no banco de dados executando os comandos dentro do container:
 
+docker compose exec laravel.test composer install
 docker compose exec laravel.test php artisan key:generate
-
 docker compose exec laravel.test php artisan migrate:fresh
 
 ## Acesso à Aplicação

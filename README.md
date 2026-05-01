@@ -35,6 +35,8 @@ Tendo o exposta acima, o objetivo é desenvolver um sistema (CRUD) para gerencia
 
 Sistema CRUD para gestão de estabelecimentos e controle de prazos de empréstimos, desenvolvido em Laravel e PostgreSQL. O ambiente está configurado com Docker para execução padronizada.
 
+Para garantir uma execução mais robusta, a arquitetura do Docker foi customizada com a inclusão de um servidor **Nginx**. O Nginx atua como web server servindo a aplicação PHP, substituindo o servidor embutido padrão e otimizando a entrega da aplicação.
+
 ## Pré-requisitos
 * Docker Desktop
 * Git

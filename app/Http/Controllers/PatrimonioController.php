@@ -7,6 +7,7 @@ use App\Http\Requests\StorePatrimonioRequest;
 use App\Models\Patrimonio;
 use App\Services\PatrimonioService;
 use Illuminate\Http\Request;
+use App\Models\Estabelecimento;
 
 class PatrimonioController extends Controller
 {
@@ -15,7 +16,7 @@ class PatrimonioController extends Controller
      */
     public function index()
     {
-        $patrimonios = \App\Models\Patrimonio::all();
+        $patrimonios = Patrimonio::all();
         return view('patrimonios.index', compact('patrimonios'));
     }
 
@@ -24,7 +25,7 @@ class PatrimonioController extends Controller
      */
     public function create()
     {
-        $estabelecimentos = \App\Models\Estabelecimento::all();
+        $estabelecimentos = Estabelecimento::all();
         return view('patrimonios.create', compact('estabelecimentos'));
     }
 

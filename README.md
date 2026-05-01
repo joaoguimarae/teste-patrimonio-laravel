@@ -44,43 +44,43 @@ Sistema CRUD para gestão de estabelecimentos e controle de prazos de empréstim
 Siga os passos abaixo no terminal da sua máquina para rodar o projeto localmente.
 
 ### 1. Clonar o repositório
-git clone https://github.com/joaoguimarae/teste-patrimonio-laravel.git
+```git clone https://github.com/joaoguimarae/teste-patrimonio-laravel.git```
 
-cd teste-patrimonio-laravel-main
+```cd teste-patrimonio-laravel-main```
 
 ### 2. Configurar variáveis de ambiente
 Crie o arquivo de configuração a partir do exemplo fornecido. O arquivo já está parametrizado para o banco de dados no Docker.
 
 No Windows (PowerShell):
 
-copy .env.example .env
+```copy .env.example .env```
 
 No Linux/Mac (Bash):
 
-cp .env.example .env
+```cp .env.example .env```
 
 ### 3. Instalar dependências do Laravel
 Utilize o comando abaixo para instalar as dependências do PHP usando um container temporário.
 
 No Windows (PowerShell):
 
-docker run --rm -v ${PWD}:/var/www/html -w /var/www/html laravelsail/php82-composer:latest composer install --ignore-platform-reqs
+```docker run --rm -v ${PWD}:/var/www/html -w /var/www/html laravelsail/php82-composer:latest composer install --ignore-platform-reqs```
 
 No Linux/Mac (Bash):
 
-docker run --rm -v $(pwd):/var/www/html -w /var/www/html laravelsail/php82-composer:latest composer install --ignore-platform-reqs
+```docker run --rm -v $(pwd):/var/www/html -w /var/www/html laravelsail/php82-composer:latest composer install --ignore-platform-reqs```
 
 ### 4. Iniciar os containers
 Inicie os serviços do Laravel e do PostgreSQL em segundo plano:
 
-docker compose up -d --build
+```docker compose up -d --build```
 
 ### 5. Finalizar a configuração
 Gere a chave da aplicação e crie as tabelas no banco de dados executando os comandos dentro do container:
 
-docker compose exec laravel.test composer install
-docker compose exec laravel.test php artisan key:generate
-docker compose exec laravel.test php artisan migrate:fresh
+```docker compose exec laravel.test composer install```
+```docker compose exec laravel.test php artisan key:generate```
+```docker compose exec laravel.test php artisan migrate:fresh```
 
 ## Acesso à Aplicação
 Acesse no seu navegador: http://localhost
@@ -88,4 +88,4 @@ Acesse no seu navegador: http://localhost
 ## Encerrar o ambiente
 Para parar a execução e limpar o banco de dados após o teste:
 
-docker compose down -v
+```docker compose down -v```
